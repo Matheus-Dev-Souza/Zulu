@@ -10,14 +10,6 @@ export default function ProfileScreen({ navigation }) {
   };
 
   const [profileImage, setProfileImage] = useState(null);
-  const [profileFields, setProfileFields] = useState([
-    { key: "name", label: "Name", value: "" },
-    { key: "number", label: "Number", value: "" },
-    { key: "email", label: "Email", value: "" },
-    { key: "dob", label: "Date of Birth", value: "" },
-    { key: "cpf", label: "CPF", value: "" },
-    { key: "clinicName", label: "Clinic Name", value: "" },
-  ]);
 
   const handleChoosePhoto = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,12 +28,6 @@ export default function ProfileScreen({ navigation }) {
     setProfileImage(null);
   };
 
-  const handleFieldChange = (key, value) => {
-    setProfileFields(prevFields =>
-      prevFields.map(field => (field.key === key ? { ...field, value } : field))
-    );
-  };
-
   return (
     <View style={styles.container}>
       <View style={[styles.header, { backgroundColor: isDarkmode ? "#000" : "#fff" }]}>
@@ -51,9 +37,10 @@ export default function ProfileScreen({ navigation }) {
           color={isDarkmode ? "#fff" : "#000"}
           onPress={handleBack}
         />
-        <Text style={[styles.headerText, { color: isDarkmode ? "#fff" : "#000" }]}>Edit Profile</Text>
+        <Text style={[styles.headerText, { color: isDarkmode ? "#fff" : "#000" }]}>Profile</Text>
       </View>
       <View style={styles.content}>
+        <Text style={styles.sectionTitle}>Profile Information</Text>
         <View style={styles.profileImageContainer}>
           {profileImage ? (
             <Image source={{ uri: profileImage }} style={styles.profileImage} />
@@ -73,22 +60,21 @@ export default function ProfileScreen({ navigation }) {
             </View>
           )}
         </View>
-        {profileFields.map(field => (
-          <View key={field.key} style={styles.profileField}>
-            <Text style={styles.fieldLabel}>{field.label}:</Text>
-            <TextInput
-              style={styles.fieldInput}
-              placeholder={`Enter your ${field.label.toLowerCase()}`}
-              value={field.value}
-              onChangeText={value => handleFieldChange(field.key, value)}
-            />
-          </View>
-        ))}
+        <View style={styles.profileField}>
+          <Text style={styles.fieldLabel}>Name: Matheus Gonçalces</Text> 
+        </View>
+        <View style={styles.profileField}>
+          <Text style={styles.fieldLabel}>Number:</Text>
+          <TextInput style={styles.fieldInput} placeholder="Enter your phone number" />
+        </View>
+        <View style={styles.profileField}>
+          <Text style={styles.fieldLabel}>Address:</Text>
+          <TextInput style={styles.fieldInput} placeholder="Enter your address" />
+        </View>
       </View>
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

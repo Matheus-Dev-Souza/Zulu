@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function ({ navigation }) {
@@ -14,13 +14,43 @@ export default function ({ navigation }) {
   };
 
   const handleSend = () => {
-    // Implement your logic to handle the send button click here
-    // You can access the text inputs using text1, text2, text3, and text4
-    // For example:
-    console.log("Text 1:", text1);
-    console.log("Text 2:", text2);
-    console.log("Text 3:", text3);
-    console.log("Text 4:", text4);
+    // Implement your quiz logic here
+    // Define the correct answers for each question
+    const correctAnswers = {
+      question1: "yes",
+      question2: "yes",
+      question3: "yes",
+      question4: "yes",
+    };
+
+    // Get the user's answers
+    const userAnswers = {
+      question1: text1.toLowerCase().trim(),
+      question2: text2.toLowerCase().trim(),
+      question3: text3.toLowerCase().trim(),
+      question4: text4.toLowerCase().trim(),
+    };
+
+    // Compare user's answers with correct answers
+    const score = Object.keys(userAnswers).reduce((acc, question) => {
+      if (userAnswers[question] === correctAnswers[question]) {
+        return acc + 1;
+      }
+      return acc;
+    }, 0);
+
+    // Show the user's score
+    Alert.alert("Quiz Result", `Your score is ${score} out of 4`);
+
+    // You can also customize the response based on the score
+    // For example, show different messages for different score ranges.
+    // if (score === 4) {
+    //   Alert.alert("Quiz Result", "Congratulations! You got a perfect score!");
+    // } else if (score >= 2) {
+    //   Alert.alert("Quiz Result", "Great job! You know a lot!");
+    // } else {
+    //   Alert.alert("Quiz Result", "Keep practicing! You can do better!");
+    // }
   };
 
   return (
@@ -52,6 +82,8 @@ export default function ({ navigation }) {
             Diario
           </Text>
         </View>
+
+        {/* Pergunta 1 */}
         <View
           style={{
             flex: 1,
@@ -60,7 +92,6 @@ export default function ({ navigation }) {
             paddingHorizontal: 20,
           }}
         >
-          {/* Pergunta 1 */}
           <Text style={{ marginBottom: 10 }}>
             Você perdeu o interesse em atividades que antes eram prazerosas?
           </Text>
@@ -71,6 +102,8 @@ export default function ({ navigation }) {
             onChangeText={(text) => setText1(text)}
           />
         </View>
+
+        {/* Pergunta 2 */}
         <View
           style={{
             flex: 1,
@@ -79,7 +112,6 @@ export default function ({ navigation }) {
             paddingHorizontal: 20,
           }}
         >
-          {/* Pergunta 2 */}
           <Text style={{ marginBottom: 10 }}>
             Você tem um sentimento persistente de tristeza?
           </Text>
@@ -90,6 +122,8 @@ export default function ({ navigation }) {
             onChangeText={(text) => setText2(text)}
           />
         </View>
+
+        {/* Pergunta 3 */}
         <View
           style={{
             flex: 1,
@@ -98,7 +132,6 @@ export default function ({ navigation }) {
             paddingHorizontal: 20,
           }}
         >
-          {/* Pergunta 3 */}
           <Text style={{ marginBottom: 10 }}>
             Você percebeu uma maior dificuldade para se concentrar?
           </Text>
@@ -109,6 +142,8 @@ export default function ({ navigation }) {
             onChangeText={(text) => setText3(text)}
           />
         </View>
+
+        {/* Pergunta 4 */}
         <View
           style={{
             flex: 1,
@@ -117,7 +152,6 @@ export default function ({ navigation }) {
             paddingHorizontal: 20,
           }}
         >
-          {/* Pergunta 4 */}
           <Text style={{ marginBottom: 10 }}>
             Você se sente mais cansado frequentemente?
           </Text>
@@ -128,6 +162,8 @@ export default function ({ navigation }) {
             onChangeText={(text) => setText4(text)}
           />
         </View>
+
+        {/* Botão Enviar */}
         <View
           style={{
             paddingHorizontal: 20,
