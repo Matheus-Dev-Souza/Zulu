@@ -1,11 +1,25 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Calendar } from "react-native-calendars";
 
 export default function ({ navigation }) {
-  const isDarkmode = false; // Assuming isDarkmode is set to false
+  const isDarkmode = false;
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const handleBack = () => {
     navigation.goBack();
+  };
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleDateConfirm = (date) => {
+    setSelectedDate(date);
+    toggleModal();
   };
 
   return (
@@ -43,11 +57,30 @@ export default function ({ navigation }) {
           justifyContent: "center",
         }}
       >
-        {/* This text using ubuntu font */}
-        <Text style={{ fontWeight: "bold"}}>
-          Consulta
-        </Text>
+        <Text style={{ fontWeight: "bold" }}>Consulta</Text>
+        <TouchableOpacity onPress={toggleModal}>
+          <Text style={{ color: "blue" }}>Agendar Consulta</Text>
+        </TouchableOpacity>
+        <Calendar
+          // Configurações do calendário, se necessário
+        />
       </View>
+
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleModal}
+      >
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+          <DateTimePickerModal
+            isVisible={isModalVisible}
+            mode="datetime"
+            onConfirm={handleDateConfirm}
+            onCancel={toggleModal}
+          />
+        </View>
+      </Modal>
     </View>
   );
 }
